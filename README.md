@@ -125,6 +125,7 @@ The following table contains the averaged accuracy over 10 runs of each implemen
 | uWaveGestureLibraryZ           | 0.7  | 0.73 | 0.75   | 0.71    | 0.24 | 0.12    | 0.65   | 0.64     | 0.57   | 
 | wafer                          | 1.0  | 1.0  | 1.0    | 1.0     | 0.91 | 0.89    | 0.99   | 0.96     | 0.92   | 
 | yoga                           | 0.86 | 0.84 | 0.87   | 0.82    | 0.54 | 0.54    | 0.75   | 0.78     | 0.63   | 
+| **total wins**                 | 6    | 36   | **50** | 17      | 1    | 1       | 1      | 4        | 3      |
 
 These results should give an insight of deep learning for TSC therefore encouraging researchers to consider the DNNs as robust classifiers for time series data. 
 
