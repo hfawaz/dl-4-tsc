@@ -35,6 +35,7 @@ All python packages needed are listed in [pip-requirements.txt](https://github.c
 Our [results](https://github.com/hfawaz/dl-4-tsc/tree/master/results) showed that a deep residual network architecture performs best for the time series classification task. 
 
 The following table contains the averaged accuracy over 10 runs of each implemented model on the UCR archive. 
+
 | Datasets                       | MLP  | FCN  | ResNet | Encoder | MCNN | t-LeNet | MCDCNN | Time-CNN | TWIESN | 
 |--------------------------------|------|------|--------|---------|------|---------|--------|----------|--------| 
 | 50words                        | 0.71 | 0.65 | 0.74   | 0.73    | 0.22 | 0.13    | 0.58   | 0.62     | 0.48   | 
