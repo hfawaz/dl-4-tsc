@@ -1,0 +1,8 @@
+sklearn
+matplotlib
+keras
+h5py
+pandas
+numpy
+scipy
+# keras_contrib # installed using pip3 install git+https://www.github.com/keras-team/keras-contrib.git
