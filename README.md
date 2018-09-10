@@ -1,6 +1,8 @@
 # Deep Learning for Time Series Classification
 This is the companion repository for [our paper](link/archive) titled "Deep learning for time series classification: a review". 
 
+![architecture resnet](https://github.com/hfawaz/dl-4-tsc/blob/master/png/resnet-archi.png)
+
 ## Data 
 The data used in this project comes from two sources: 
 * The [UCR archive](http://www.cs.ucr.edu/~eamonn/time_series_data/), which contains the 85 univariate time series datasets. 
