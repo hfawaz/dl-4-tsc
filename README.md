@@ -1,5 +1,5 @@
 # Deep Learning for Time Series Classification
-This is the companion repository for [our paper](link/archive) titled "Deep learning for time series classification: a review". 
+This is the companion repository for [our paper](https://arxiv.org/abs/1809.04356) titled "Deep learning for time series classification: a review". 
 
 ![architecture resnet](https://github.com/hfawaz/dl-4-tsc/blob/master/png/resnet-archi.png)
 
