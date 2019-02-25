@@ -16,7 +16,7 @@ The code is divided as follows:
 
 To run a model on one dataset you should issue the following command: 
 ```
-python3 main.py UCR_TS_Archive_2015 Coffee fcn _itr_8
+python3 main.py TSC Coffee fcn _itr_8
 ```
 which means we are launching the [fcn](https://github.com/hfawaz/dl-4-tsc/blob/master/classifiers/fcn.py) model on the univariate UCR archive for the Coffee dataset (see [constants.py](https://github.com/hfawaz/dl-4-tsc/blob/master/utils/constants.py) for a list of possible options).
 
