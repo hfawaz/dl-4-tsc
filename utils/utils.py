@@ -1,6 +1,6 @@
 from builtins import print
 import numpy as np
-import pandas as pd 
+import pandas as pd
 import matplotlib
 matplotlib.use('agg')
 import matplotlib.pyplot as plt
@@ -13,12 +13,12 @@ import utils
 
 from utils.constants import UNIVARIATE_DATASET_NAMES as DATASET_NAMES
 from utils.constants import ARCHIVE_NAMES  as ARCHIVE_NAMES
-from utils.constants import CLASSIFIERS 
+from utils.constants import CLASSIFIERS
 from utils.constants import ITERATIONS
 from utils.constants import MTS_DATASET_NAMES
 
 from sklearn.metrics import accuracy_score
-from sklearn.metrics import precision_score 
+from sklearn.metrics import precision_score
 from sklearn.metrics import recall_score
 from sklearn.preprocessing import LabelEncoder
 
@@ -31,22 +31,22 @@ def readucr(filename):
     X = data[:,1:]
     return X, Y
 
-def create_directory(directory_path): 
-    if os.path.exists(directory_path): 
+def create_directory(directory_path):
+    if os.path.exists(directory_path):
         return None
-    else: 
-        try: 
+    else:
+        try:
             os.makedirs(directory_path)
-        except: 
+        except:
             # in case another machine created the path meanwhile !:(
-            return None 
+            return None
         return directory_path
 
 def create_path(root_dir,classifier_name, archive_name):
     output_directory = root_dir+'/results/'+classifier_name+'/'+archive_name+'/'
-    if os.path.exists(output_directory): 
+    if os.path.exists(output_directory):
         return None
-    else: 
+    else:
         os.makedirs(output_directory)
         return output_directory
 
@@ -72,7 +72,7 @@ def read_dataset(root_dir,archive_name,dataset_name):
 
     return datasets_dict
 
-def read_all_datasets(root_dir,archive_name, split_val = False): 
+def read_all_datasets(root_dir,archive_name, split_val = False):
     datasets_dict = {}
 
     dataset_names_to_sort = []
@@ -188,7 +188,7 @@ def transform_mts_to_ucr_format():
 
         print(dataset_name, 'max',max_length,'min', min_length)
         print()
-        continue
+        #continue
 
         x_train = transform_to_same_length(x_train,n_var,max_length)
         x_test = transform_to_same_length(x_test,n_var,max_length)
@@ -201,12 +201,12 @@ def transform_mts_to_ucr_format():
 
         print('Done')
 
-def calculate_metrics(y_true, y_pred,duration,y_true_val=None,y_pred_val=None): 
-    res = pd.DataFrame(data = np.zeros((1,4),dtype=np.float), index=[0], 
+def calculate_metrics(y_true, y_pred,duration,y_true_val=None,y_pred_val=None):
+    res = pd.DataFrame(data = np.zeros((1,4),dtype=np.float), index=[0],
         columns=['precision','accuracy','recall','duration'])
     res['precision'] = precision_score(y_true,y_pred,average='macro')
     res['accuracy'] = accuracy_score(y_true,y_pred)
-    
+
     if not y_true_val is None:
         # this is useful when transfer learning is used with cross validation
         res['accuracy_val'] = accuracy_score(y_true_val,y_pred_val)
@@ -217,40 +217,40 @@ def calculate_metrics(y_true, y_pred,duration,y_true_val=None,y_pred_val=None):
 
 def transform_labels(y_train,y_test,y_val=None):
     """
-    Transform label to min equal zero and continuous 
+    Transform label to min equal zero and continuous
     For example if we have [1,3,4] --->  [0,1,2]
     """
-    if not y_val is None : 
-        # index for when resplitting the concatenation 
+    if not y_val is None :
+        # index for when resplitting the concatenation
         idx_y_val = len(y_train)
         idx_y_test = idx_y_val + len(y_val)
         # init the encoder
         encoder = LabelEncoder()
-        # concat train and test to fit 
+        # concat train and test to fit
         y_train_val_test = np.concatenate((y_train,y_val,y_test),axis =0)
-        # fit the encoder 
+        # fit the encoder
         encoder.fit(y_train_val_test)
-        # transform to min zero and continuous labels 
+        # transform to min zero and continuous labels
         new_y_train_val_test = encoder.transform(y_train_val_test)
         # resplit the train and test
         new_y_train = new_y_train_val_test[0:idx_y_val]
         new_y_val = new_y_train_val_test[idx_y_val:idx_y_test]
         new_y_test = new_y_train_val_test[idx_y_test:]
-        return new_y_train, new_y_val,new_y_test 
-    else: 
-        # no validation split 
+        return new_y_train, new_y_val,new_y_test
+    else:
+        # no validation split
         # init the encoder
         encoder = LabelEncoder()
-        # concat train and test to fit 
+        # concat train and test to fit
         y_train_test = np.concatenate((y_train,y_test),axis =0)
-        # fit the encoder 
+        # fit the encoder
         encoder.fit(y_train_test)
-        # transform to min zero and continuous labels 
+        # transform to min zero and continuous labels
         new_y_train_test = encoder.transform(y_train_test)
         # resplit the train and test
         new_y_train = new_y_train_test[0:len(y_train)]
         new_y_test = new_y_train_test[len(y_train):]
-        return new_y_train, new_y_test   
+        return new_y_train, new_y_test
 
 def generate_results_csv(output_file_name, root_dir):
     res = pd.DataFrame(data = np.zeros((0,7),dtype=np.float), index=[],
@@ -275,13 +275,13 @@ def generate_results_csv(output_file_name, root_dir):
                     res = pd.concat( (res,df_metrics) ,axis=0,sort=False)
 
     res.to_csv(root_dir+output_file_name, index = False)
-    # aggreagte the accuracy for iterations on same dataset 
+    # aggreagte the accuracy for iterations on same dataset
     res = pd.DataFrame({
         'accuracy' : res.groupby(
             ['classifier_name','archive_name','dataset_name'])['accuracy'].mean()
         }).reset_index()
 
-    return res 
+    return res
 
 def plot_epochs_metric(hist, file_name, metric='loss'):
     plt.figure()
@@ -301,13 +301,13 @@ def save_logs_t_leNet(output_directory, hist, y_pred, y_true,duration ):
     df_metrics = calculate_metrics(y_true,y_pred, duration)
     df_metrics.to_csv(output_directory+'df_metrics.csv', index=False)
 
-    index_best_model = hist_df['loss'].idxmin() 
+    index_best_model = hist_df['loss'].idxmin()
     row_best_model = hist_df.loc[index_best_model]
 
-    df_best_model = pd.DataFrame(data = np.zeros((1,6),dtype=np.float) , index = [0], 
-        columns=['best_model_train_loss', 'best_model_val_loss', 'best_model_train_acc', 
+    df_best_model = pd.DataFrame(data = np.zeros((1,6),dtype=np.float) , index = [0],
+        columns=['best_model_train_loss', 'best_model_val_loss', 'best_model_train_acc',
         'best_model_val_acc', 'best_model_learning_rate','best_model_nb_epoch'])
-    
+
     df_best_model['best_model_train_loss'] = row_best_model['loss']
     df_best_model['best_model_val_loss'] = row_best_model['val_loss']
     df_best_model['best_model_train_acc'] = row_best_model['acc']
@@ -316,7 +316,7 @@ def save_logs_t_leNet(output_directory, hist, y_pred, y_true,duration ):
 
     df_best_model.to_csv(output_directory+'df_best_model.csv', index=False)
 
-    # plot losses 
+    # plot losses
     plot_epochs_metric(hist, output_directory+'epochs_loss.png')
 
 def save_logs(output_directory, hist, y_pred, y_true,duration,lr=True,y_true_val=None,y_pred_val=None):
@@ -326,13 +326,13 @@ def save_logs(output_directory, hist, y_pred, y_true,duration,lr=True,y_true_val
     df_metrics = calculate_metrics(y_true,y_pred, duration,y_true_val,y_pred_val)
     df_metrics.to_csv(output_directory+'df_metrics.csv', index=False)
 
-    index_best_model = hist_df['loss'].idxmin() 
+    index_best_model = hist_df['loss'].idxmin()
     row_best_model = hist_df.loc[index_best_model]
 
-    df_best_model = pd.DataFrame(data = np.zeros((1,6),dtype=np.float) , index = [0], 
-        columns=['best_model_train_loss', 'best_model_val_loss', 'best_model_train_acc', 
+    df_best_model = pd.DataFrame(data = np.zeros((1,6),dtype=np.float) , index = [0],
+        columns=['best_model_train_loss', 'best_model_val_loss', 'best_model_train_acc',
         'best_model_val_acc', 'best_model_learning_rate','best_model_nb_epoch'])
-    
+
     df_best_model['best_model_train_loss'] = row_best_model['loss']
     df_best_model['best_model_val_loss'] = row_best_model['val_loss']
     df_best_model['best_model_train_acc'] = row_best_model['acc']
@@ -343,9 +343,9 @@ def save_logs(output_directory, hist, y_pred, y_true,duration,lr=True,y_true_val
 
     df_best_model.to_csv(output_directory+'df_best_model.csv', index=False)
 
-    # for FCN there is no hyperparameters fine tuning - everything is static in code 
+    # for FCN there is no hyperparameters fine tuning - everything is static in code
 
-    # plot losses 
+    # plot losses
     plot_epochs_metric(hist, output_directory+'epochs_loss.png')
 
     return df_metrics

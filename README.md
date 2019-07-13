@@ -157,8 +157,11 @@ If you re-use this work, please cite:
 @article{IsmailFawaz2018deep,
   Title                    = {Deep learning for time series classification: a review},
   Author                   = {Ismail Fawaz, Hassan and Forestier, Germain and Weber, Jonathan and Idoumghar, Lhassane and Muller, Pierre-Alain},
-  journal                = {Data Mining and Knowledge Discovery},
-  Year                     = {2019}
+  journal                  = {Data Mining and Knowledge Discovery},
+  Year                     = {2019},
+  volume                   = {33},
+  number                   = {4},
+  pages                    = {917--963},
 }
 ```
 ## Acknowledgement
