@@ -163,7 +163,7 @@ def transform_mts_to_ucr_format():
         a = a['mts']
         a = a[0,0]
 
-        dt = a.dtype.fields.keys()
+        dt = a.dtype.names
         dt = list(dt)
 
         for i in range(len(dt)):
