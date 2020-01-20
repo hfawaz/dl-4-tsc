@@ -1,20 +1,27 @@
-# Time-CNN
-import keras
+# FCN model
+# when tuning start with learning rate->mini_batch_size ->
+# momentum-> #hidden_units -> # learning_rate_decay -> #layers
+import tensorflow.keras as keras
+import tensorflow as tf
 import numpy as np
 import time
 
 from utils.utils import save_logs
-
+from utils.utils import calculate_metrics
 
 class Classifier_CNN:
 
-    def __init__(self, output_directory, input_shape, nb_classes, verbose=False):
+    def __init__(self, output_directory, input_shape, nb_classes, verbose=False,build=True):
         self.output_directory = output_directory
-        self.model = self.build_model(input_shape, nb_classes)
-        if (verbose == True):
-            self.model.summary()
-        self.verbose = verbose
-        self.model.save_weights(self.output_directory + 'model_init.hdf5')
+
+        if build == True:
+            self.model = self.build_model(input_shape, nb_classes)
+            if (verbose == True):
+                self.model.summary()
+            self.verbose = verbose
+            self.model.save_weights(self.output_directory + 'model_init.hdf5')
+
+        return
 
     def build_model(self, input_shape, nb_classes):
         padding = 'valid'
@@ -48,6 +55,10 @@ class Classifier_CNN:
         return model
 
     def fit(self, x_train, y_train, x_val, y_val, y_true):
+        if not tf.test.is_gpu_available:
+            print('error')
+            exit()
+
         # x_val and y_val are only used to monitor the test loss and NOT for training
         mini_batch_size = 16
         nb_epochs = 2000
@@ -58,6 +69,8 @@ class Classifier_CNN:
                               verbose=self.verbose, validation_data=(x_val, y_val), callbacks=self.callbacks)
 
         duration = time.time() - start_time
+
+        self.model.save(self.output_directory+'last_model.hdf5')
 
         model = keras.models.load_model(self.output_directory + 'best_model.hdf5')
 
@@ -70,4 +83,13 @@ class Classifier_CNN:
 
         keras.backend.clear_session()
 
-
+    def predict(self, x_test,y_true,x_train,y_train,y_test,return_df_metrics = True):
+        model_path = self.output_directory + 'best_model.hdf5'
+        model = keras.models.load_model(model_path)
+        y_pred = model.predict(x_test)
+        if return_df_metrics:
+            y_pred = np.argmax(y_pred, axis=1)
+            df_metrics = calculate_metrics(y_true, y_pred, 0.0)
+            return df_metrics
+        else:
+            return y_pred

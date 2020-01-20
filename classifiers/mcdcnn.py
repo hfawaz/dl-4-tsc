@@ -1,21 +1,26 @@
-# MCDCNN
-import keras
+# FCN model
+# when tuning start with learning rate->mini_batch_size ->
+# momentum-> #hidden_units -> # learning_rate_decay -> #layers
+import tensorflow.keras as keras
 import numpy as np
 from sklearn.model_selection import train_test_split
 import time
-
+import tensorflow as tf
 from utils.utils import save_logs
+from utils.utils import calculate_metrics
 
 
 class Classifier_MCDCNN:
 
-    def __init__(self, output_directory, input_shape, nb_classes, verbose=False):
+    def __init__(self, output_directory, input_shape, nb_classes, verbose=False,build=True):
         self.output_directory = output_directory
-        self.model = self.build_model(input_shape, nb_classes)
-        if (verbose == True):
-            self.model.summary()
-        self.verbose = verbose
-        self.model.save_weights(self.output_directory + 'model_init.hdf5')
+        if build == True:
+            self.model = self.build_model(input_shape, nb_classes)
+            if (verbose == True):
+                self.model.summary()
+            self.verbose = verbose
+            self.model.save_weights(self.output_directory + 'model_init.hdf5')
+        return
 
     def build_model(self, input_shape, nb_classes):
         n_t = input_shape[0]
@@ -77,6 +82,9 @@ class Classifier_MCDCNN:
         return  new_x
 
     def fit(self, x, y, x_test, y_test, y_true):
+        if not tf.test.is_gpu_available:
+            print('error')
+            exit()
         mini_batch_size = 16
         nb_epochs = 120
 
@@ -94,6 +102,8 @@ class Classifier_MCDCNN:
 
         duration = time.time() - start_time
 
+        self.model.save(self.output_directory+'last_model.hdf5')
+
         model = keras.models.load_model(self.output_directory + 'best_model.hdf5')
 
         y_pred = model.predict(x_test)
@@ -105,4 +115,13 @@ class Classifier_MCDCNN:
 
         keras.backend.clear_session()
 
-
+    def predict(self, x_test,y_true,x_train,y_train,y_test,return_df_metrics = True):
+        model_path = self.output_directory + 'best_model.hdf5'
+        model = keras.models.load_model(model_path)
+        y_pred = model.predict(self.prepare_input(x_test))
+        if return_df_metrics:
+            y_pred = np.argmax(y_pred, axis=1)
+            df_metrics = calculate_metrics(y_true, y_pred, 0.0)
+            return df_metrics
+        else:
+            return y_pred

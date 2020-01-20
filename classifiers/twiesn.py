@@ -1,4 +1,4 @@
-# model TWIESN
+# model twi-esn 
 import numpy as np
 from scipy import sparse
 from scipy.sparse import linalg as slinalg
