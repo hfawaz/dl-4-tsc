@@ -1,5 +1,3 @@
-# Update: Added the [results](https://github.com/hfawaz/dl-4-tsc/blob/master/results/results-ucr-128.csv) on the 128 datasets from the [UCR archive 2018](https://www.cs.ucr.edu/~eamonn/time_series_data_2018/).  
-# Check out [our latest Inception model](https://github.com/hfawaz/InceptionTime)
 # Deep Learning for Time Series Classification
 This is the companion repository for [our paper](https://link.springer.com/article/10.1007%2Fs10618-019-00619-1) titled "Deep learning for time series classification: a review" published in [Data Mining and Knowledge Discovery](https://link.springer.com/journal/10618), also available on [ArXiv](https://arxiv.org/pdf/1809.04356.pdf). 
 
@@ -24,6 +22,10 @@ which means we are launching the [fcn](https://github.com/hfawaz/dl-4-tsc/blob/m
 
 ## Prerequisites
 All python packages needed are listed in [pip-requirements.txt](https://github.com/hfawaz/dl-4-tsc/blob/master/utils/pip-requirements.txt) file and can be installed simply using the pip command. 
+The code now uses Tensorflow 2.0.
+The results in the paper were generated using the Tensorflow 1.14 implementation which can be found [here](https://github.com/hfawaz/dl-4-tsc/commit/7ab94a02aedf3a9688e248603bd43c5d405f039b). 
+Using Tensorflow 2.0 should give the same results.  
+Now [InceptionTime](https://github.com/hfawaz/InceptionTime) is included in the mix, feel free to send a pull request to add another classifier. 
 
 * [numpy](http://www.numpy.org/)  
 * [pandas](https://pandas.pydata.org/)  
@@ -36,7 +38,8 @@ All python packages needed are listed in [pip-requirements.txt](https://github.c
 * [keras_contrib](https://www.github.com/keras-team/keras-contrib.git)
 
 ## Results
-Our [results](https://github.com/hfawaz/dl-4-tsc/tree/master/results) showed that a deep residual network architecture performs best for the time series classification task. 
+I added the [results](https://github.com/hfawaz/dl-4-tsc/blob/master/results/results-ucr-128.csv) on the 128 datasets from the [UCR archive 2018](https://www.cs.ucr.edu/~eamonn/time_series_data_2018/).
+Our [results](https://github.com/hfawaz/dl-4-tsc/tree/master/results) in the paper showed that a deep residual network architecture performs best for the time series classification task. 
 
 The following table contains the averaged accuracy over 10 runs of each implemented model on the UCR/UEA archive, with the standard deviation between parentheses. 
 
@@ -151,6 +154,8 @@ The following table contains the averaged accuracy over 10 runs of each implemen
 
 These results should give an insight of deep learning for TSC therefore encouraging researchers to consider the DNNs as robust classifiers for time series data. 
 
+If you would like to generate the critical difference diagrams using Wilcoxon Signed Rank test with Holm's alpha correction, check out [the cd-diagram repository](https://github.com/hfawaz/cd-diagram). 
+
 ## Reference
 
 If you re-use this work, please cite:
@@ -170,4 +175,4 @@ If you re-use this work, please cite:
 
 We would like to thank the providers of the [UCR/UEA archive](http://timeseriesclassification.com/TSC.zip). 
 We would also like to thank NVIDIA Corporation for the Quadro P6000 grant and the Mésocentre of Strasbourg for providing access to the cluster.
-We would also like to thank François Petitjean and Charlotte Pelletier for the fruitful discussions, their feedback and comments while writing this paper.
+We would also like to thank [François Petitjean](https://www.francois-petitjean.com/) and [Charlotte Pelletier](https://sites.google.com/site/charpelletier/) for the fruitful discussions, their feedback and comments while writing this paper.
