@@ -146,7 +146,7 @@ class Classifier_TLENET:
             print('error')
             exit()
         nb_epochs = 1000
-        batch_size= 64
+        batch_size= 256
         nb_classes = y_train.shape[1]
 
         # limit the number of augmented time series if series too long or too many 
