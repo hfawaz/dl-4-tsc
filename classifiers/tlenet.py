@@ -145,8 +145,8 @@ class Classifier_TLENET:
         if not tf.test.is_gpu_available:
             print('error')
             exit()
-        nb_epochs = 10
-        batch_size= 32
+        nb_epochs = 1000
+        batch_size= 64
         nb_classes = y_train.shape[1]
 
         # limit the number of augmented time series if series too long or too many 
