@@ -145,8 +145,8 @@ class Classifier_TLENET:
         if not tf.test.is_gpu_available:
             print('error')
             exit()
-        nb_epochs = 1000
-        batch_size= 256
+        nb_epochs = 10
+        batch_size= 32
         nb_classes = y_train.shape[1]
 
         # limit the number of augmented time series if series too long or too many 
@@ -193,7 +193,7 @@ class Classifier_TLENET:
         y_predicted = []
         test_num_batch = int(x_test.shape[0]/tot_increase_num)
         for i in range(test_num_batch):
-            unique_value, sub_ind, correspond_ind, count = np.unique(y_pred, True, True, True)
+            unique_value, sub_ind, correspond_ind, count = np.unique(y_pred[i*tot_increase_num:(i+1)*tot_increase_num], True, True, True)
 
             idx_max = np.argmax(count)
             predicted_label = unique_value[idx_max]
