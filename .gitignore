@@ -105,6 +105,4 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-archives
 .vscode
-results

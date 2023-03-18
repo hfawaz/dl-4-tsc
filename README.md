@@ -6,17 +6,31 @@ This is the companion repository for [our paper](https://link.springer.com/artic
 ## Docker
 Assuming you have [docker](https://hub.docker.com) installed.
 You can now use the docker image provided [here](https://hub.docker.com/repository/docker/hassanfawaz/dl-4-tsc/general). 
-To run you will need to manually download the UCR archive into `/dl-4-tsc/archives/replace_this_with_UCRArchive_2018`.
 
-Once you have the datasets, you simply need to run the following:
+Access the docker container via: 
 ```bash
-docker run docker run --name somename --gpus all  -idt --entrypoint bash  hassanfawaz/dl-4-tsc
+docker run docker run --name somename --gpus all  -idt hassanfawaz/dl-4-tsc
 docker exec -it somename bash
+```
+
+To run you will need to manually download the UCR archive into `/dl-4-tsc/archives/`: 
+
+```bash
+cd /dl-4-tsc/archives
+wget https://www.cs.ucr.edu/~eamonn/time_series_data_2018/UCRArchive_2018.zip
+unzip -P $password UCRArchive_2018.zip
+```
+
+The password can be found [here](https://www.cs.ucr.edu/~eamonn/time_series_data_2018/).
+
+Now that you have the data and the code you can just run the code.
+
+```bash
 cd /dl-4-tsc
 python -m main UCRArchive_2018 Coffee fcn _itr_0
 ```
 
-You can also try and install with pip.
+You can also try and install with pip on your env.
 
 ## Data 
 The data used in this project comes from two sources: 
