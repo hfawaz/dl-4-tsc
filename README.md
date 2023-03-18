@@ -9,7 +9,7 @@ You can now use the docker image provided [here](https://hub.docker.com/reposito
 
 Access the docker container via: 
 ```bash
-docker run --name somename --gpus all  -idt hassanfawaz/dl-4-tsc
+docker run --name somename --gpus all  -idt hassanfawaz/dl-4-tsc:0.3
 docker exec -it somename bash
 ```
 
