@@ -44,7 +44,7 @@ def fit_classifier():
     classifier.fit(x_train, y_train, x_test, y_test, y_true)
 
 
-def create_classifier(classifier_name, input_shape, nb_classes, output_directory, verbose=False):
+def create_classifier(classifier_name, input_shape, nb_classes, output_directory, verbose=True):
     if classifier_name == 'fcn':
         from classifiers import fcn
         return fcn.Classifier_FCN(output_directory, input_shape, nb_classes, verbose)
@@ -80,7 +80,7 @@ def create_classifier(classifier_name, input_shape, nb_classes, output_directory
 ############################################### main
 
 # change this directory for your machine
-root_dir = '/b/home/uha/hfawaz-datas/dl-tsc-temp/'
+root_dir = '/dl-4-tsc/'
 
 if sys.argv[1] == 'run_all':
     for classifier_name in CLASSIFIERS:

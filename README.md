@@ -3,6 +3,21 @@ This is the companion repository for [our paper](https://link.springer.com/artic
 
 ![architecture resnet](https://github.com/hfawaz/dl-4-tsc/blob/master/png/resnet-archi.png)
 
+## Docker
+Assuming you have [docker](https://hub.docker.com) installed.
+You can now use the docker image provided [here](https://hub.docker.com/repository/docker/hassanfawaz/dl-4-tsc/general). 
+To run you will need to manually download the UCR archive into `/dl-4-tsc/archives/replace_this_with_UCRArchive_2018`.
+
+Once you have the datasets, you simply need to run the following:
+```bash
+docker run docker run --name somename --gpus all  -idt --entrypoint bash  hassanfawaz/dl-4-tsc
+docker exec -it somename bash
+cd /dl-4-tsc
+python -m main UCRArchive_2018 Coffee fcn _itr_0
+```
+
+You can also try and install with pip.
+
 ## Data 
 The data used in this project comes from two sources: 
 * The [UCR/UEA archive](http://timeseriesclassification.com/TSC.zip), which contains the 85 univariate time series datasets. 
