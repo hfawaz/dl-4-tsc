@@ -61,6 +61,7 @@ def read_dataset(root_dir, archive_name, dataset_name):
     datasets_dict = {}
     cur_root_dir = root_dir.replace('-temp', '')
 
+    # MTS存档，其中包含13个多元时间序列数据集。
     if archive_name == 'mts_archive':
         file_name = cur_root_dir + '/archives/' + archive_name + '/' + dataset_name + '/'
         x_train = np.load(file_name + 'x_train.npy')
@@ -71,6 +72,7 @@ def read_dataset(root_dir, archive_name, dataset_name):
         datasets_dict[dataset_name] = (x_train.copy(), y_train.copy(), x_test.copy(),
                                        y_test.copy())
 
+    # UCR / UEA存档，其中包含85个单变量时间序列数据集。
     elif archive_name == 'UCRArchive_2018':
         root_dir_dataset = cur_root_dir + '/archives/' + archive_name + '/' + dataset_name + '/'
         df_train = pd.read_csv(root_dir_dataset + '/' + dataset_name + '_TRAIN.tsv', sep='\t', header=None)
